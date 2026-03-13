@@ -76,15 +76,17 @@ import '../styles/global.css';
 
     <footer class="border-t border-neutral-900 mt-16">
       <div
-        class="container-narrow py-8 text-xs text-neutral-500 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+        class="container-narrow py-8 text-xs text-neutral-500 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3"
       >
         <div class="space-y-1">
-          <p>© {new Date().getFullYear()} clm.ink — Chambéry, France.</p>
+          <p>
+            © {new Date().getFullYear()} clm.ink — Tatoueur à Chambéry, Haute-Savoie, France.
+          </p>
           <p class="text-[11px] text-neutral-600">
             <a
               href="studio-hygiene"
               class="underline underline-offset-4 decoration-neutral-600 hover:decoration-neutral-300"
-              >Studio &amp; hygiène</a
+              >Informations & hygiène</a
             >
             <span class="mx-1">·</span>
             <a
@@ -92,19 +94,29 @@ import '../styles/global.css';
               class="underline underline-offset-4 decoration-neutral-600 hover:decoration-neutral-300"
               >FAQ tatouage</a
             >
+            <span class="mx-1">·</span>
+            <a
+              href="https://www.instagram.com/clm.ink/"
+              target="_blank"
+              rel="noreferrer"
+              class="underline underline-offset-4 decoration-neutral-600 hover:decoration-neutral-300"
+              >Instagram</a
+            >
           </p>
         </div>
-        <p>
-          Instagram :
-          <a
-            href="https://www.instagram.com/clm.ink/"
-            target="_blank"
-            rel="noreferrer"
-            class="ml-1 underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200"
-          >
-            @clm.ink
-          </a>
-        </p>
+        <div class="space-y-1">
+          <p class="text-[11px] text-neutral-700">
+            Site par
+            <a
+              href="https://www.renaudgouffe.fr"
+              target="_blank"
+              rel="noreferrer"
+              class="underline underline-offset-4 decoration-neutral-700 hover:decoration-neutral-400"
+            >
+              rndgf
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   </body>
