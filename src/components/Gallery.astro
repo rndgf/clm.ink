@@ -1,0 +1,99 @@
+---
+const pieces = [
+  {
+    id: 'geo-sleeve',
+    title: 'Full sleeve — geometric lines',
+    style: 'Geometric / Blackwork',
+    size: 'Full arm',
+  },
+  {
+    id: 'back-mandala',
+    title: 'Back piece — mandala',
+    style: 'Geometric',
+    size: 'Back',
+  },
+  {
+    id: 'realist-portrait',
+    title: 'Portrait — black and grey',
+    style: 'Realist',
+    size: 'Forearm',
+  },
+  {
+    id: 'abstract-blackwork',
+    title: 'Abstract composition',
+    style: 'Blackwork',
+    size: 'Upper arm',
+  },
+  {
+    id: 'fine-line',
+    title: 'Fine line pattern',
+    style: 'Geometric',
+    size: 'Wrist',
+  },
+  {
+    id: 'mix',
+    title: 'Mix realism / geometric',
+    style: 'Realist / Geometric',
+    size: 'Leg',
+  },
+];
+---
+
+<section id="work" class="border-b border-neutral-900 bg-black">
+  <div class="container-narrow py-14 sm:py-20 space-y-8">
+    <header class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+      <div>
+        <p class="text-xs uppercase tracking-[0.35em] text-neutral-500">
+          Sélection de pièces
+        </p>
+        <h2 class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight">Gallery</h2>
+      </div>
+      <p class="text-sm text-neutral-400 max-w-md">
+        Un aperçu du travail réalisé en studio : grandes pièces, micro-tattoos et projets sur-mesure.
+        Images en noir et blanc, orientées geometric, realism et blackwork.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+      {pieces.map((piece) => (
+        <figure
+          class="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/80"
+        >
+          <div class="aspect-[4/5] w-full bg-neutral-900">
+            <img
+              src={`/images/gallery/${piece.id}.jpg`}
+              alt={piece.title}
+              loading="lazy"
+              class="h-full w-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500"
+            />
+          </div>
+          <figcaption class="flex items-center justify-between px-4 py-3 text-xs">
+            <div>
+              <p class="font-medium text-neutral-50">{piece.title}</p>
+              <p class="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-neutral-500">
+                {piece.style} · {piece.size}
+              </p>
+            </div>
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-800 text-[10px] uppercase tracking-[0.16em] text-neutral-400">
+              clm
+            </span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <p class="text-xs text-neutral-500">
+      Les projets visibles ici ne représentent qu&apos;une partie des pièces réalisées. Retrouvez plus de contenu sur
+      <a
+        href="https://www.instagram.com/clm.ink/"
+        target="_blank"
+        rel="noreferrer"
+        class="ml-1 underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200"
+      >
+        @clm.ink
+      </a>
+      .
+    </p>
+  </div>
+</section>
+

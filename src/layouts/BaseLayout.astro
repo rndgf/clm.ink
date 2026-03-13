@@ -1,0 +1,78 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'clm.ink — Tattoo artist à Chambéry',
+  description = 'Tatoueur spécialisé en geometric, realism et blackwork à Chambéry. Prise de rendez-vous, galerie de tatouages et informations pratiques.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#000000" />
+    <link rel="canonical" href={Astro.site?.toString() ?? 'https://clm.ink'} />
+    <meta name="robots" content="index,follow" />
+    <script type="application/ld+json">
+      {JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'LocalBusiness',
+        name: 'clm.ink',
+        url: 'https://clm.ink',
+        image: 'https://clm.ink/og-cover.jpg',
+        description:
+          'Tatoueur spécialisé en geometric, realism et blackwork à Chambéry, France.',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Chambéry',
+          addressCountry: 'FR',
+        },
+        sameAs: ['https://www.instagram.com/clm.ink/'],
+      })}
+    </script>
+    <link rel="stylesheet" href="/src/styles/global.css" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="border-b border-neutral-800/80 bg-black/80 backdrop-blur sticky top-0 z-40">
+      <div class="container-narrow flex items-center justify-between py-3">
+        <a href="/" class="font-semibold tracking-[0.25em] uppercase text-xs sm:text-sm">
+          clm.ink
+        </a>
+        <nav class="hidden sm:flex gap-6 text-xs uppercase tracking-[0.2em] text-neutral-400">
+          <a href="/#work" class="hover:text-neutral-100 transition-colors">Portfolio</a>
+          <a href="/#infos" class="hover:text-neutral-100 transition-colors">Infos</a>
+          <a href="/#contact" class="hover:text-neutral-100 transition-colors">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="border-t border-neutral-900 mt-16">
+      <div class="container-narrow py-8 text-xs text-neutral-500 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <p>© {new Date().getFullYear()} clm.ink — Chambéry, France.</p>
+        <p>
+          Instagram :
+          <a
+            href="https://www.instagram.com/clm.ink/"
+            target="_blank"
+            rel="noreferrer"
+            class="ml-1 underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200"
+          >
+            @clm.ink
+          </a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
