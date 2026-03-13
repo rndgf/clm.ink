@@ -7,7 +7,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "scrape:instagram": "node scripts/scrape-instagram.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.1",

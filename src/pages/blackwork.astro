@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Gallery from '../components/Gallery.astro';
+---
+
+<BaseLayout
+  title="Tatouages blackwork — clm.ink Chambéry"
+  description="Tatouages blackwork graphiques à Chambéry : aplats noirs, formes abstraites, textures et compositions fortes par clm.ink."
+>
+  <section class="border-b border-neutral-900 bg-black">
+    <div class="container-narrow py-14 sm:py-20 space-y-6">
+      <header class="space-y-3">
+        <p class="text-xs uppercase tracking-[0.35em] text-neutral-500">
+          Style — Blackwork
+        </p>
+        <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight">
+          Blackwork graphique et contrasté.
+        </h1>
+        <p class="text-sm sm:text-base text-neutral-300 max-w-2xl">
+          Aplats noirs, lignes franches, textures et compositions abstraites : le blackwork mise
+          sur des contrastes forts et un impact visuel immédiat. Idéal pour des projets graphiques
+          qui structurent le corps.
+        </p>
+      </header>
+
+      <div class="grid gap-8 lg:grid-cols-2 text-sm text-neutral-300">
+        <p>
+          Le blackwork peut prendre la forme de grandes zones entièrement remplies, de motifs
+          répétitifs, de lignes architecturales ou de compositions plus organiques. La clé est de
+          respecter les limites de la peau pour éviter une surcharge et garder un rendu propre.
+        </p>
+        <p>
+          Selon les zones et votre mode de vie, on adapte la densité de noir, les textures et les
+          dégradés pour que le tatouage reste lisible et harmonieux dans le temps. Bras, jambes,
+          dos et flancs sont des emplacements fréquents pour ce style.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Gallery
+    title="Blackwork"
+    kicker="Sélection de pièces blackwork"
+    description="Une sélection de tatouages blackwork par clm.ink : aplats noirs, compositions graphiques et pièces à fort contraste."
+  />
+</BaseLayout>
+

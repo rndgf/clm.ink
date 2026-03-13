@@ -1,89 +1,123 @@
 ---
-const pieces = [
-  {
-    id: 'geo-sleeve',
-    title: 'Full sleeve — geometric lines',
-    style: 'Geometric / Blackwork',
-    size: 'Full arm',
-  },
-  {
-    id: 'back-mandala',
-    title: 'Back piece — mandala',
-    style: 'Geometric',
-    size: 'Back',
-  },
-  {
-    id: 'realist-portrait',
-    title: 'Portrait — black and grey',
-    style: 'Realist',
-    size: 'Forearm',
-  },
-  {
-    id: 'abstract-blackwork',
-    title: 'Abstract composition',
-    style: 'Blackwork',
-    size: 'Upper arm',
-  },
-  {
-    id: 'fine-line',
-    title: 'Fine line pattern',
-    style: 'Geometric',
-    size: 'Wrist',
-  },
-  {
-    id: 'mix',
-    title: 'Mix realism / geometric',
-    style: 'Realist / Geometric',
-    size: 'Leg',
-  },
-];
+interface Props {
+  title?: string;
+  kicker?: string;
+  description?: string;
+}
+
+const {
+  title = "Portfolio",
+  kicker = "Sélection de pièces",
+  description = "Un aperçu de mon travail réalisé en studio : grandes pièces, micro-tattoos et projets sur-mesure. Images en noir et blanc, orientées geometric, realism et blackwork.",
+} = Astro.props as Props;
+
+// Chargement des fichiers depuis le dossier public côté build (type any pour éviter les soucis TS Node).
+// On utilise des imports dynamiques pour éviter que le client essaie de résoudre ces modules.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const { readdirSync }: any = await (globalThis as any)
+  .eval("import('node:fs')")
+  .then((m: any) => m);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const pathMod: any = await (globalThis as any)
+  .eval("import('node:path')")
+  .then((m: any) => m);
+
+const galleryDir = pathMod.resolve("public/images/gallery");
+const allFiles = readdirSync(galleryDir, { withFileTypes: true }) as any[];
+const imageFiles = allFiles
+  .filter((entry: any) => entry.isFile())
+  .map((entry: any) => entry.name as string)
+  .filter((name: string) => name.match(/\.(jpe?g|png|webp)$/i))
+  .sort();
+
+const pieces = imageFiles.map((name: string, index: number) => ({
+  id: `img-${index + 1}`,
+  src: `/images/gallery/${name}`,
+  title: `Tatouage clm.ink #${index + 1}`,
+  style: "Geometric / Realist / Blackwork",
+}));
+
+const perPage = 3;
+const groups: (typeof pieces)[] = [];
+for (let i = 0; i < pieces.length; i += perPage) {
+  groups.push(pieces.slice(i, i + perPage));
+}
 ---
 
 <section id="work" class="border-b border-neutral-900 bg-black">
   <div class="container-narrow py-14 sm:py-20 space-y-8">
-    <header class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+    <header
+      class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
+    >
       <div>
         <p class="text-xs uppercase tracking-[0.35em] text-neutral-500">
-          Sélection de pièces
+          {kicker}
         </p>
-        <h2 class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight">Gallery</h2>
+        <h2 class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight">
+          {title}
+        </h2>
       </div>
       <p class="text-sm text-neutral-400 max-w-md">
-        Un aperçu du travail réalisé en studio : grandes pièces, micro-tattoos et projets sur-mesure.
-        Images en noir et blanc, orientées geometric, realism et blackwork.
+        {description}
       </p>
     </header>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-      {pieces.map((piece) => (
-        <figure
-          class="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/80"
+    <div class="relative">
+      <div class="flex items-center justify-end mb-5 gap-3">
+        <button
+          type="button"
+          class="gallery-prev inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-600 bg-neutral-900/80 text-sm text-neutral-200 hover:border-neutral-200 hover:bg-neutral-800 hover:text-neutral-50 transition-colors disabled:opacity-40 disabled:border-neutral-800 disabled:text-neutral-600"
+          aria-label="Pièces précédentes"
         >
-          <div class="aspect-[4/5] w-full bg-neutral-900">
-            <img
-              src={`/images/gallery/${piece.id}.jpg`}
-              alt={piece.title}
-              loading="lazy"
-              class="h-full w-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500"
-            />
-          </div>
-          <figcaption class="flex items-center justify-between px-4 py-3 text-xs">
-            <div>
-              <p class="font-medium text-neutral-50">{piece.title}</p>
-              <p class="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-neutral-500">
-                {piece.style} · {piece.size}
-              </p>
+          ‹
+        </button>
+        <button
+          type="button"
+          class="gallery-next inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-600 bg-neutral-900/80 text-sm text-neutral-200 hover:border-neutral-200 hover:bg-neutral-800 hover:text-neutral-50 transition-colors disabled:opacity-40 disabled:border-neutral-800 disabled:text-neutral-600"
+          aria-label="Pièces suivantes"
+        >
+          ›
+        </button>
+      </div>
+
+      <div class="overflow-hidden">
+        <div
+          class="gallery-track flex transition-transform duration-500 ease-out"
+          data-page-count={groups.length}
+        >
+          {groups.map((group, index) => (
+            <div
+              class="min-w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
+              data-page={index}
+            >
+              {group.map((piece, pieceIndex) => (
+                <button
+                  type="button"
+                  data-gallery-image
+                  class={
+                    "group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/80 focus:outline-none focus:ring-2 focus:ring-neutral-400/60" +
+                    (pieceIndex > 0 ? " hidden sm:block" : "")
+                  }
+                >
+                  <div class="aspect-[4/5] w-full bg-neutral-900">
+                    <img
+                      src={piece.src}
+                      alt={piece.title}
+                      loading="lazy"
+                      class="h-full w-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500"
+                    />
+                  </div>
+                </button>
+              ))}
             </div>
-            <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-800 text-[10px] uppercase tracking-[0.16em] text-neutral-400">
-              clm
-            </span>
-          </figcaption>
-        </figure>
-      ))}
+          ))}
+        </div>
+      </div>
     </div>
 
     <p class="text-xs text-neutral-500">
-      Les projets visibles ici ne représentent qu&apos;une partie des pièces réalisées. Retrouvez plus de contenu sur
+      Les projets visibles ici ne représentent qu&apos;une partie des pièces
+      réalisées. Retrouvez plus de contenu sur
       <a
         href="https://www.instagram.com/clm.ink/"
         target="_blank"
@@ -97,3 +131,182 @@ const pieces = [
   </div>
 </section>
 
+<div
+  id="gallery-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 px-4"
+>
+  <button
+    type="button"
+    class="absolute inset-0 w-full h-full cursor-default"
+    data-gallery-close
+    aria-label="Fermer l'image"
+  ></button>
+  <div class="relative max-w-3xl w-full">
+    <div class="absolute -top-10 right-0 flex justify-end">
+      <button
+        type="button"
+        class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-600 text-xs text-neutral-200 hover:border-neutral-300 hover:text-neutral-50 bg-black/60"
+        data-gallery-close
+        aria-label="Fermer"
+      >
+        ✕
+      </button>
+    </div>
+    <div
+      class="aspect-[3/4] w-full rounded-2xl border border-neutral-800 bg-neutral-950/80 overflow-hidden"
+    >
+      <img
+        id="gallery-modal-image"
+        src=""
+        alt=""
+        loading="lazy"
+        class="h-full w-full object-contain"
+      />
+    </div>
+  </div>
+</div>
+
+<script>
+  function initGallerySlider() {
+    const track = document.querySelector<HTMLDivElement>(".gallery-track");
+    const prev = document.querySelector<HTMLButtonElement>(".gallery-prev");
+    const next = document.querySelector<HTMLButtonElement>(".gallery-next");
+
+    if (!track || !prev || !next) return;
+
+    const pageCount = Number(track.dataset.pageCount ?? 1);
+    let current = 0;
+
+    function update() {
+      track!.style.transform = `translateX(-${current * 100}%)`;
+      prev!.disabled = current === 0;
+      next!.disabled = current >= pageCount - 1;
+    }
+
+    prev.addEventListener("click", () => {
+      if (current > 0) {
+        current -= 1;
+        update();
+      }
+    });
+
+    next.addEventListener("click", () => {
+      if (current < pageCount - 1) {
+        current += 1;
+        update();
+      }
+    });
+
+    update();
+  }
+
+  function initGalleryModal() {
+    const modal = document.getElementById(
+      "gallery-modal",
+    ) as HTMLDivElement | null;
+    const modalImg = document.getElementById(
+      "gallery-modal-image",
+    ) as HTMLImageElement | null;
+    const imageButtons = document.querySelectorAll<HTMLButtonElement>(
+      "[data-gallery-image]",
+    );
+    const closeButtons =
+      document.querySelectorAll<HTMLButtonElement>("[data-gallery-close]");
+
+    if (!modal || !modalImg || imageButtons.length === 0) return;
+
+    const images: { src: string; alt: string }[] = [];
+    imageButtons.forEach((btn, index) => {
+      const img = btn.querySelector("img");
+      if (!img) return;
+      images.push({ src: img.src, alt: img.alt || "" });
+      btn.dataset.index = String(images.length - 1);
+    });
+
+    let currentIndex = 0;
+
+    function showImage(index: number) {
+      if (!modal || !modalImg || images.length === 0) return;
+      const boundedIndex = ((index % images.length) + images.length) % images.length;
+      const { src, alt } = images[boundedIndex];
+      modalImg.src = src;
+      modalImg.alt = alt;
+      currentIndex = boundedIndex;
+    }
+
+    function openModal(index: number) {
+      if (!modal) return;
+      showImage(index);
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeModal() {
+      if (!modal || !modalImg) return;
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      modalImg.src = "";
+      modalImg.alt = "";
+    }
+
+    imageButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const rawIndex = btn.dataset.index;
+        if (!rawIndex) return;
+        const index = Number(rawIndex);
+        if (Number.isNaN(index)) return;
+        openModal(index);
+      });
+    });
+
+    closeButtons.forEach((btn) => {
+      btn.addEventListener("click", closeModal);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (!modal || modal.classList.contains("hidden")) return;
+      if (event.key === "Escape") {
+        closeModal();
+      } else if (event.key === "ArrowRight") {
+        showImage(currentIndex + 1);
+      } else if (event.key === "ArrowLeft") {
+        showImage(currentIndex - 1);
+      }
+    });
+
+    let touchStartX: number | null = null;
+
+    modal.addEventListener("touchstart", (event) => {
+      if (event.touches.length !== 1) return;
+      touchStartX = event.touches[0].clientX;
+    });
+
+    modal.addEventListener("touchend", (event) => {
+      if (touchStartX === null) return;
+      const touchEndX = event.changedTouches[0].clientX;
+      const deltaX = touchEndX - touchStartX;
+      const threshold = 40;
+
+      if (Math.abs(deltaX) > threshold) {
+        if (deltaX < 0) {
+          showImage(currentIndex + 1);
+        } else {
+          showImage(currentIndex - 1);
+        }
+      }
+
+      touchStartX = null;
+    });
+  }
+
+  function initGallery() {
+    initGallerySlider();
+    initGalleryModal();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initGallery);
+  } else {
+    initGallery();
+  }
+</script>
