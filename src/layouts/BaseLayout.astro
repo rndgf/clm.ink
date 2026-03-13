@@ -20,15 +20,18 @@ import '../styles/global.css';
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#000000" />
-    <link rel="canonical" href={Astro.site?.toString() ?? 'https://clm.ink'} />
+    <link rel="canonical" href={Astro.site?.toString() ?? 'https://www.clm-ink.fr'} />
     <meta name="robots" content="index,follow" />
+    <link rel="icon" type="image/svg+xml" href="/monogram.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
     <script type="application/ld+json">
       {JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
         name: 'clm.ink',
-        url: 'https://clm.ink',
-        image: 'https://clm.ink/og-cover.jpg',
+        url: 'https://www.clm-ink.fr',
+        image: 'https://www.clm-ink.fr/og-cover.jpg',
         description:
           'Tatoueur spécialisé en geometric, realism et blackwork à Chambéry, France.',
         address: {

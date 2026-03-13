@@ -3,7 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://clm.ink',
+  site: 'https://www.clm-ink.fr',
   vite: {
     plugins: [tailwindcss()],
   },
