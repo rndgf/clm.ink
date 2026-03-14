@@ -250,8 +250,8 @@ const totalThemePages = themePageGroups.length;
     class="absolute inset-0 w-full h-full cursor-default"
     data-gallery-close
     aria-label="Fermer l'image"></button>
-  <div class="relative max-w-3xl w-full">
-    <div class="absolute -top-10 right-0 flex justify-end">
+  <div class="relative max-w-3xl w-full max-h-[90vh] flex flex-col items-center">
+    <div class="absolute -top-10 right-0 flex justify-end shrink-0">
       <button
         type="button"
         class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-600 text-xs text-neutral-200 hover:border-neutral-300 hover:text-neutral-50 bg-black/60"
@@ -262,7 +262,7 @@ const totalThemePages = themePageGroups.length;
       </button>
     </div>
     <div
-      class="aspect-[3/4] w-full rounded-2xl border border-neutral-800 bg-neutral-950/80 overflow-hidden"
+      class="aspect-[3/4] w-full max-h-[85vh] rounded-2xl border border-neutral-800 bg-neutral-950/80 overflow-hidden shrink min-h-0"
     >
       <img
         id="gallery-modal-image"
