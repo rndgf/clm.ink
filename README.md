@@ -46,8 +46,7 @@ Le site est accessible sur `http://localhost:4321`.
 
 - **File**: `src/layouts/BaseLayout.astro` — Layout de base (SEO, header, footer)
 - **File**: `src/components/Hero.astro` — Section hero
-- **File**: `src/components/Portfolio.astro` — Galerie portfolio
-- **File**: `src/components/ExplorePortfolio.astro` — Liens vers les galeries par style
+- **File**: `src/components/Portfolio.astro` — Galerie portfolio et liens par style (geometric, realism, blackwork)
 - **File**: `src/components/InfoSection.astro` — Bloc infos pratiques
 
 Les assets statiques (images, favicon, etc.) sont dans `public/`.
