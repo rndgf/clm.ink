@@ -34,7 +34,10 @@ type ImageEntry = { name: string; subfolder: string };
 
 function listImagesInDir(dirPath: string, subfolder: string): ImageEntry[] {
   try {
-    const entries = readdirSync(dirPath, { withFileTypes: true }) as { name: string; isFile: () => boolean }[];
+    const entries = readdirSync(dirPath, { withFileTypes: true }) as {
+      name: string;
+      isFile: () => boolean;
+    }[];
     return entries
       .filter((e) => e.isFile() && imageExt.test(e.name))
       .map((e) => ({ name: e.name, subfolder }));
@@ -60,9 +63,9 @@ if (folder) {
 } else {
   const subfolders = ["geometric", "realism", "blackwork"] as const;
   rawImages = subfolders.flatMap((sub) =>
-    listImagesInDir(pathMod.join(galleryBase, sub), sub)
+    listImagesInDir(pathMod.join(galleryBase, sub), sub),
   );
-  rawImages = shuffle(rawImages).slice(0, 20);
+  rawImages = shuffle(rawImages).slice(0, 15);
 }
 
 const pieces = rawImages.map((entry, index) => ({
@@ -108,91 +111,94 @@ const totalThemePages = themePageGroups.length;
       </p>
     </header>
 
-    {folder ? (
-      <div
-        class="gallery-pagination-wrapper"
-        data-total-pages={totalThemePages}
-      >
-        {themePageGroups.map((pagePieces, pageIndex) => (
-          <div
-            class={`gallery-page ${pageIndex === 0 ? "block" : "hidden"}`}
-            data-page={pageIndex}
-          >
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
-              {pagePieces.map((piece) => (
-                <button
-                  type="button"
-                  data-gallery-image
-                  class="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/80 focus:outline-none focus:ring-2 focus:ring-neutral-400/60"
-                >
-                  <div class="aspect-[4/5] w-full bg-neutral-900">
-                    <img
-                      src={piece.src}
-                      alt={piece.title}
-                      loading="lazy"
-                      decoding="async"
-                      class="h-full w-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500"
-                    />
-                  </div>
-                </button>
-              ))}
+    {
+      folder ? (
+        <div
+          class="gallery-pagination-wrapper"
+          data-total-pages={totalThemePages}
+        >
+          {themePageGroups.map((pagePieces, pageIndex) => (
+            <div
+              class={`gallery-page ${pageIndex === 0 ? "block" : "hidden"}`}
+              data-page={pageIndex}
+            >
+              <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+                {pagePieces.map((piece) => (
+                  <button
+                    type="button"
+                    data-gallery-image
+                    class="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/80 focus:outline-none focus:ring-2 focus:ring-neutral-400/60"
+                  >
+                    <div class="aspect-[4/5] w-full bg-neutral-900">
+                      <img
+                        src={piece.src}
+                        alt={piece.title}
+                        loading="lazy"
+                        decoding="async"
+                        class="h-full w-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500"
+                      />
+                    </div>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-        {totalThemePages > 1 && (
-          <nav
-            class="mt-8 flex items-center justify-center gap-4"
-            aria-label="Pagination galerie"
+          ))}
+          {totalThemePages > 1 && (
+            <nav
+              class="mt-8 flex items-center justify-center gap-4"
+              aria-label="Pagination galerie"
+            >
+              <button
+                type="button"
+                class="gallery-pagination-prev inline-flex items-center justify-center rounded-full border border-neutral-600 bg-black/60 px-4 py-2 text-xs uppercase tracking-wider text-neutral-300 hover:border-neutral-200 hover:text-neutral-100 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                aria-label="Page précédente"
+              >
+                ‹ Précédent
+              </button>
+              <span class="gallery-pagination-info text-xs text-neutral-500 min-w-[6rem] text-center">
+                Page{" "}
+                <span class="gallery-pagination-current font-medium text-neutral-300">
+                  1
+                </span>{" "}
+                /{" "}
+                <span class="gallery-pagination-total">{totalThemePages}</span>
+              </span>
+              <button
+                type="button"
+                class="gallery-pagination-next inline-flex items-center justify-center rounded-full border border-neutral-600 bg-black/60 px-4 py-2 text-xs uppercase tracking-wider text-neutral-300 hover:border-neutral-200 hover:text-neutral-100 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+                aria-label="Page suivante"
+              >
+                Suivant ›
+              </button>
+            </nav>
+          )}
+        </div>
+      ) : (
+        <div
+          class="relative gallery-slider-wrapper"
+          data-auto-play={autoPlay ? "true" : undefined}
+        >
+          <button
+            type="button"
+            class="gallery-prev max-sm:hidden inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-600 bg-black/40 text-sm text-neutral-100 hover:border-neutral-200 hover:bg-neutral-800/90 hover:text-neutral-50 transition-colors absolute left-2 top-1/2 -translate-y-1/2 z-10"
+            aria-label="Pièces précédentes"
           >
-            <button
-              type="button"
-              class="gallery-pagination-prev inline-flex items-center justify-center rounded-full border border-neutral-600 bg-black/60 px-4 py-2 text-xs uppercase tracking-wider text-neutral-300 hover:border-neutral-200 hover:text-neutral-100 disabled:opacity-40 disabled:pointer-events-none transition-colors"
-              aria-label="Page précédente"
-            >
-              ‹ Précédent
-            </button>
-            <span class="gallery-pagination-info text-xs text-neutral-500 min-w-[6rem] text-center">
-              Page <span class="gallery-pagination-current font-medium text-neutral-300">1</span>
-              {' '}/{' '}
-              <span class="gallery-pagination-total">{totalThemePages}</span>
-            </span>
-            <button
-              type="button"
-              class="gallery-pagination-next inline-flex items-center justify-center rounded-full border border-neutral-600 bg-black/60 px-4 py-2 text-xs uppercase tracking-wider text-neutral-300 hover:border-neutral-200 hover:text-neutral-100 disabled:opacity-40 disabled:pointer-events-none transition-colors"
-              aria-label="Page suivante"
-            >
-              Suivant ›
-            </button>
-          </nav>
-        )}
-      </div>
-    ) : (
-      <div
-        class="relative gallery-slider-wrapper"
-        data-auto-play={autoPlay ? "true" : undefined}
-      >
-        <button
-          type="button"
-          class="gallery-prev inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-600 bg-black/40 text-sm text-neutral-100 hover:border-neutral-200 hover:bg-neutral-800/90 hover:text-neutral-50 transition-colors absolute left-2 top-1/2 -translate-y-1/2 z-10"
-          aria-label="Pièces précédentes"
-        >
-          ‹
-        </button>
-        <button
-          type="button"
-          class="gallery-next inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-600 bg-black/40 text-sm text-neutral-100 hover:border-neutral-200 hover:bg-neutral-800/90 hover:text-neutral-50 transition-colors absolute right-2 top-1/2 -translate-y-1/2 z-10"
-          aria-label="Pièces suivantes"
-        >
-          ›
-        </button>
+            ‹
+          </button>
+          <button
+            type="button"
+            class="gallery-next max-sm:hidden inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-600 bg-black/40 text-sm text-neutral-100 hover:border-neutral-200 hover:bg-neutral-800/90 hover:text-neutral-50 transition-colors absolute right-2 top-1/2 -translate-y-1/2 z-10"
+            aria-label="Pièces suivantes"
+          >
+            ›
+          </button>
 
-        <div class="overflow-hidden">
-          <div
-            class={`gallery-track flex transition-transform ease-out ${autoPlay ? "duration-700" : "duration-500"}`}
-            data-page-count={groups.length}
-          >
-            {
-              groups.map((group, index) => (
+          <div class="overflow-hidden">
+            <div
+              class={`gallery-track flex transition-transform ease-out ${autoPlay ? "duration-700" : "duration-500"}`}
+              data-page-count={groups.length}
+            >
+              {groups.map((group, index) => (
                 <div
                   class="min-w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
                   data-page={index}
@@ -218,12 +224,12 @@ const totalThemePages = themePageGroups.length;
                     </button>
                   ))}
                 </div>
-              ))
-            }
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )
+    }
 
     <p class="text-xs text-neutral-500">
       Les projets visibles ici ne représentent qu&apos;une partie des pièces
@@ -250,7 +256,9 @@ const totalThemePages = themePageGroups.length;
     class="absolute inset-0 w-full h-full cursor-default"
     data-gallery-close
     aria-label="Fermer l'image"></button>
-  <div class="relative max-w-3xl w-full max-h-[90vh] flex flex-col items-center">
+  <div
+    class="relative max-w-3xl w-full max-h-[90vh] flex flex-col items-center"
+  >
     <div class="absolute -top-10 right-0 flex justify-end shrink-0">
       <button
         type="button"
@@ -294,7 +302,12 @@ const totalThemePages = themePageGroups.length;
     }
 
     function startAutoplay() {
-      if (autoplayInterval || !wrapper || wrapper.getAttribute("data-auto-play") !== "true") return;
+      if (
+        autoplayInterval ||
+        !wrapper ||
+        wrapper.getAttribute("data-auto-play") !== "true"
+      )
+        return;
       autoplayInterval = setInterval(() => {
         current = (current + 1) % pageCount;
         update();
@@ -452,13 +465,21 @@ const totalThemePages = themePageGroups.length;
   }
 
   function initGalleryPagination() {
-    const wrapper = document.querySelector<HTMLDivElement>(".gallery-pagination-wrapper");
+    const wrapper = document.querySelector<HTMLDivElement>(
+      ".gallery-pagination-wrapper",
+    );
     if (!wrapper) return;
 
     const pages = wrapper.querySelectorAll<HTMLDivElement>(".gallery-page");
-    const prevBtn = wrapper.querySelector<HTMLButtonElement>(".gallery-pagination-prev");
-    const nextBtn = wrapper.querySelector<HTMLButtonElement>(".gallery-pagination-next");
-    const currentEl = wrapper.querySelector<HTMLSpanElement>(".gallery-pagination-current");
+    const prevBtn = wrapper.querySelector<HTMLButtonElement>(
+      ".gallery-pagination-prev",
+    );
+    const nextBtn = wrapper.querySelector<HTMLButtonElement>(
+      ".gallery-pagination-next",
+    );
+    const currentEl = wrapper.querySelector<HTMLSpanElement>(
+      ".gallery-pagination-current",
+    );
     const totalPages = Number(wrapper.dataset.totalPages ?? 1);
 
     if (pages.length === 0 || totalPages <= 1) return;
