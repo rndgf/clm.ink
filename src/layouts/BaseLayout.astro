@@ -9,6 +9,11 @@ const {
   description = 'Tatoueur spécialisé en geometric, realism et blackwork à Chambéry. Prise de rendez-vous, galerie de tatouages et informations pratiques.',
 } = Astro.props;
 
+// Relative path to site root for links (site is at domain root, no subdirectory)
+const pathSegments = Astro.url.pathname.split('/').filter(Boolean);
+const depth = pathSegments.length;
+const relBase = depth === 0 ? './' : '../'.repeat(depth);
+
 import '../styles/global.css';
 ---
 
@@ -52,10 +57,10 @@ import '../styles/global.css';
   <body class="min-h-screen flex flex-col">
     <header class="border-b border-neutral-800/80 bg-black/80 backdrop-blur sticky top-0 z-40">
       <div class="container-narrow flex items-center justify-between py-3">
-        <a href="/clm.ink/" class="flex items-center gap-3">
+        <a href={relBase} class="flex items-center gap-3">
           <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-700 bg-neutral-950/80 overflow-hidden">
             <img
-              src="logo.png"
+              src="/logo.png"
               alt="clm.ink"
               loading="lazy"
               class="h-full w-full object-contain"
@@ -66,9 +71,9 @@ import '../styles/global.css';
           </span>
         </a>
         <nav class="hidden sm:flex gap-6 text-xs uppercase tracking-[0.2em] text-neutral-400">
-          <a href="/clm.ink/#work" class="hover:text-neutral-100 transition-colors">Portfolio</a>
-          <a href="/clm.ink/#infos" class="hover:text-neutral-100 transition-colors">Infos</a>
-          <a href="/clm.ink/#contact" class="hover:text-neutral-100 transition-colors">Contact</a>
+          <a href={`${relBase}#work`} class="hover:text-neutral-100 transition-colors">Portfolio</a>
+          <a href={`${relBase}#infos`} class="hover:text-neutral-100 transition-colors">Infos</a>
+          <a href={`${relBase}#contact`} class="hover:text-neutral-100 transition-colors">Contact</a>
         </nav>
       </div>
     </header>
@@ -84,19 +89,19 @@ import '../styles/global.css';
         <div class="space-y-1">
           <p>
             © {new Date().getFullYear()} <a
-              href="https://www.clm-ink.fr"
+              href={relBase}
               class="underline underline-offset-4 decoration-neutral-600 hover:decoration-neutral-300"
               >clm-ink.fr</a> — Tatoueur à Chambéry, Haute-Savoie, France.
           </p>
           <p class="text-[11px] text-neutral-600">
             <a
-              href="studio-hygiene"
+              href={`${relBase}studio-hygiene`}
               class="underline underline-offset-4 decoration-neutral-600 hover:decoration-neutral-300"
               >Informations & hygiène</a
             >
             <span class="mx-1">·</span>
             <a
-              href="faq-tatouage"
+              href={`${relBase}faq-tatouage`}
               class="underline underline-offset-4 decoration-neutral-600 hover:decoration-neutral-300"
               >FAQ tatouage</a
             >
