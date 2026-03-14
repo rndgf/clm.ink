@@ -3,16 +3,21 @@ interface Props {
   title?: string;
   kicker?: string;
   description?: string;
+  /** When set, load only images from this gallery subfolder (geometric, realism, blackwork). */
+  folder?: "geometric" | "realism" | "blackwork";
+  /** When true, show 20 random images from all folders and auto-advance the slider. */
+  autoPlay?: boolean;
 }
 
 const {
   title = "Portfolio.",
   kicker = "Sélection de pièces",
   description = "Un aperçu de mon travail réalisé en studio : grandes pièces, micro-tattoos et projets sur-mesure. Images en noir et blanc, orientées geometric, realism et blackwork.",
+  folder,
+  autoPlay = false,
 } = Astro.props as Props;
 
-// Chargement des fichiers depuis le dossier public côté build (type any pour éviter les soucis TS Node).
-// On utilise des imports dynamiques pour éviter que le client essaie de résoudre ces modules.
+// Load image paths at build time (Node fs/path).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const { readdirSync }: any = await (globalThis as any)
   .eval("import('node:fs')")
@@ -22,26 +27,67 @@ const pathMod: any = await (globalThis as any)
   .eval("import('node:path')")
   .then((m: any) => m);
 
-const galleryDir = pathMod.resolve("public/images/gallery");
-const allFiles = readdirSync(galleryDir, { withFileTypes: true }) as any[];
-const imageFiles = allFiles
-  .filter((entry: any) => entry.isFile())
-  .map((entry: any) => entry.name as string)
-  .filter((name: string) => name.match(/\.(jpe?g|png|webp)$/i))
-  .sort();
+const galleryBase = pathMod.resolve("public/images/gallery");
+const imageExt = /\.(jpe?g|png|webp)$/i;
 
-const pieces = imageFiles.map((name: string, index: number) => ({
+type ImageEntry = { name: string; subfolder: string };
+
+function listImagesInDir(dirPath: string, subfolder: string): ImageEntry[] {
+  try {
+    const entries = readdirSync(dirPath, { withFileTypes: true }) as { name: string; isFile: () => boolean }[];
+    return entries
+      .filter((e) => e.isFile() && imageExt.test(e.name))
+      .map((e) => ({ name: e.name, subfolder }));
+  } catch {
+    return [];
+  }
+}
+
+function shuffle<T>(arr: T[]): T[] {
+  const out = [...arr];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+let rawImages: ImageEntry[];
+
+if (folder) {
+  rawImages = listImagesInDir(pathMod.join(galleryBase, folder), folder);
+  rawImages.sort((a, b) => a.name.localeCompare(b.name));
+} else {
+  const subfolders = ["geometric", "realism", "blackwork"] as const;
+  rawImages = subfolders.flatMap((sub) =>
+    listImagesInDir(pathMod.join(galleryBase, sub), sub)
+  );
+  rawImages = shuffle(rawImages).slice(0, 20);
+}
+
+const pieces = rawImages.map((entry, index) => ({
   id: `img-${index + 1}`,
-  src: `images/gallery/${name}`,
+  src: `images/gallery/${entry.subfolder}/${entry.name}`,
   title: `Tatouage clm.ink #${index + 1}`,
-  style: "Geometric / Realist / Blackwork",
 }));
 
-const perPage = 3;
+const PER_SLIDE = 3;
+const PER_PAGE_THEME = 20;
+
 const groups: (typeof pieces)[] = [];
-for (let i = 0; i < pieces.length; i += perPage) {
-  groups.push(pieces.slice(i, i + perPage));
+const themePageGroups: (typeof pieces)[] = [];
+
+if (folder) {
+  for (let i = 0; i < pieces.length; i += PER_PAGE_THEME) {
+    themePageGroups.push(pieces.slice(i, i + PER_PAGE_THEME));
+  }
+} else {
+  for (let i = 0; i < pieces.length; i += PER_SLIDE) {
+    groups.push(pieces.slice(i, i + PER_SLIDE));
+  }
 }
+
+const totalThemePages = themePageGroups.length;
 ---
 
 <section id="work" class="border-b border-neutral-900 bg-black">
@@ -62,58 +108,122 @@ for (let i = 0; i < pieces.length; i += perPage) {
       </p>
     </header>
 
-    <div class="relative">
-      <button
-        type="button"
-        class="gallery-prev inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-600 bg-black/40 text-sm text-neutral-100 hover:border-neutral-200 hover:bg-neutral-800/90 hover:text-neutral-50 transition-colors absolute left-2 top-1/2 -translate-y-1/2 z-10"
-        aria-label="Pièces précédentes"
+    {folder ? (
+      <div
+        class="gallery-pagination-wrapper"
+        data-total-pages={totalThemePages}
       >
-        ‹
-      </button>
-      <button
-        type="button"
-        class="gallery-next inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-600 bg-black/40 text-sm text-neutral-100 hover:border-neutral-200 hover:bg-neutral-800/90 hover:text-neutral-50 transition-colors absolute right-2 top-1/2 -translate-y-1/2 z-10"
-        aria-label="Pièces suivantes"
+        {themePageGroups.map((pagePieces, pageIndex) => (
+          <div
+            class={`gallery-page ${pageIndex === 0 ? "block" : "hidden"}`}
+            data-page={pageIndex}
+          >
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+              {pagePieces.map((piece) => (
+                <button
+                  type="button"
+                  data-gallery-image
+                  class="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/80 focus:outline-none focus:ring-2 focus:ring-neutral-400/60"
+                >
+                  <div class="aspect-[4/5] w-full bg-neutral-900">
+                    <img
+                      src={piece.src}
+                      alt={piece.title}
+                      loading="lazy"
+                      decoding="async"
+                      class="h-full w-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500"
+                    />
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+        {totalThemePages > 1 && (
+          <nav
+            class="mt-8 flex items-center justify-center gap-4"
+            aria-label="Pagination galerie"
+          >
+            <button
+              type="button"
+              class="gallery-pagination-prev inline-flex items-center justify-center rounded-full border border-neutral-600 bg-black/60 px-4 py-2 text-xs uppercase tracking-wider text-neutral-300 hover:border-neutral-200 hover:text-neutral-100 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+              aria-label="Page précédente"
+            >
+              ‹ Précédent
+            </button>
+            <span class="gallery-pagination-info text-xs text-neutral-500 min-w-[6rem] text-center">
+              Page <span class="gallery-pagination-current font-medium text-neutral-300">1</span>
+              {' '}/{' '}
+              <span class="gallery-pagination-total">{totalThemePages}</span>
+            </span>
+            <button
+              type="button"
+              class="gallery-pagination-next inline-flex items-center justify-center rounded-full border border-neutral-600 bg-black/60 px-4 py-2 text-xs uppercase tracking-wider text-neutral-300 hover:border-neutral-200 hover:text-neutral-100 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+              aria-label="Page suivante"
+            >
+              Suivant ›
+            </button>
+          </nav>
+        )}
+      </div>
+    ) : (
+      <div
+        class="relative gallery-slider-wrapper"
+        data-auto-play={autoPlay ? "true" : undefined}
       >
-        ›
-      </button>
-
-      <div class="overflow-hidden">
-        <div
-          class="gallery-track flex transition-transform duration-500 ease-out"
-          data-page-count={groups.length}
+        <button
+          type="button"
+          class="gallery-prev inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-600 bg-black/40 text-sm text-neutral-100 hover:border-neutral-200 hover:bg-neutral-800/90 hover:text-neutral-50 transition-colors absolute left-2 top-1/2 -translate-y-1/2 z-10"
+          aria-label="Pièces précédentes"
         >
-          {
-            groups.map((group, index) => (
-              <div
-                class="min-w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
-                data-page={index}
-              >
-                {group.map((piece, pieceIndex) => (
-                  <button
-                    type="button"
-                    data-gallery-image
-                    class={
-                      "group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/80 focus:outline-none focus:ring-2 focus:ring-neutral-400/60" +
-                      (pieceIndex > 0 ? " hidden sm:block" : "")
-                    }
-                  >
-                    <div class="aspect-[4/5] w-full bg-neutral-900">
-                      <img
-                        src={piece.src}
-                        alt={piece.title}
-                        loading="lazy"
-                        class="h-full w-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500"
-                      />
-                    </div>
-                  </button>
-                ))}
-              </div>
-            ))
-          }
+          ‹
+        </button>
+        <button
+          type="button"
+          class="gallery-next inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-600 bg-black/40 text-sm text-neutral-100 hover:border-neutral-200 hover:bg-neutral-800/90 hover:text-neutral-50 transition-colors absolute right-2 top-1/2 -translate-y-1/2 z-10"
+          aria-label="Pièces suivantes"
+        >
+          ›
+        </button>
+
+        <div class="overflow-hidden">
+          <div
+            class={`gallery-track flex transition-transform ease-out ${autoPlay ? "duration-700" : "duration-500"}`}
+            data-page-count={groups.length}
+          >
+            {
+              groups.map((group, index) => (
+                <div
+                  class="min-w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
+                  data-page={index}
+                >
+                  {group.map((piece, pieceIndex) => (
+                    <button
+                      type="button"
+                      data-gallery-image
+                      class={
+                        "group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/80 focus:outline-none focus:ring-2 focus:ring-neutral-400/60" +
+                        (pieceIndex > 0 ? " hidden sm:block" : "")
+                      }
+                    >
+                      <div class="aspect-[4/5] w-full bg-neutral-900">
+                        <img
+                          src={piece.src}
+                          alt={piece.title}
+                          loading="lazy"
+                          decoding="async"
+                          class="h-full w-full object-cover filter grayscale group-hover:grayscale-0 transition duration-500"
+                        />
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              ))
+            }
+          </div>
         </div>
       </div>
-    </div>
+    )}
 
     <p class="text-xs text-neutral-500">
       Les projets visibles ici ne représentent qu&apos;une partie des pièces
@@ -170,15 +280,32 @@ for (let i = 0; i < pieces.length; i += perPage) {
     const track = document.querySelector<HTMLDivElement>(".gallery-track");
     const prev = document.querySelector<HTMLButtonElement>(".gallery-prev");
     const next = document.querySelector<HTMLButtonElement>(".gallery-next");
+    const wrapper = track?.closest(".gallery-slider-wrapper");
 
     if (!track || !prev || !next) return;
 
     const pageCount = Number(track.dataset.pageCount ?? 1);
     let current = 0;
     let touchStartX: number | null = null;
+    let autoplayInterval: ReturnType<typeof setInterval> | null = null;
 
     function update() {
       track!.style.transform = `translateX(-${current * 100}%)`;
+    }
+
+    function startAutoplay() {
+      if (autoplayInterval || !wrapper || wrapper.getAttribute("data-auto-play") !== "true") return;
+      autoplayInterval = setInterval(() => {
+        current = (current + 1) % pageCount;
+        update();
+      }, 4000);
+    }
+
+    function stopAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      }
     }
 
     prev.addEventListener("click", () => {
@@ -213,6 +340,12 @@ for (let i = 0; i < pieces.length; i += perPage) {
 
       touchStartX = null;
     });
+
+    if (wrapper?.getAttribute("data-auto-play") === "true") {
+      wrapper.addEventListener("mouseenter", stopAutoplay);
+      wrapper.addEventListener("mouseleave", startAutoplay);
+      startAutoplay();
+    }
 
     update();
   }
@@ -318,8 +451,50 @@ for (let i = 0; i < pieces.length; i += perPage) {
     });
   }
 
+  function initGalleryPagination() {
+    const wrapper = document.querySelector<HTMLDivElement>(".gallery-pagination-wrapper");
+    if (!wrapper) return;
+
+    const pages = wrapper.querySelectorAll<HTMLDivElement>(".gallery-page");
+    const prevBtn = wrapper.querySelector<HTMLButtonElement>(".gallery-pagination-prev");
+    const nextBtn = wrapper.querySelector<HTMLButtonElement>(".gallery-pagination-next");
+    const currentEl = wrapper.querySelector<HTMLSpanElement>(".gallery-pagination-current");
+    const totalPages = Number(wrapper.dataset.totalPages ?? 1);
+
+    if (pages.length === 0 || totalPages <= 1) return;
+
+    let current = 0;
+
+    function update() {
+      pages.forEach((page, i) => {
+        page.classList.toggle("hidden", i !== current);
+        page.classList.toggle("block", i === current);
+      });
+      if (prevBtn) prevBtn.disabled = current === 0;
+      if (nextBtn) nextBtn.disabled = current === totalPages - 1;
+      if (currentEl) currentEl.textContent = String(current + 1);
+    }
+
+    prevBtn?.addEventListener("click", () => {
+      if (current > 0) {
+        current--;
+        update();
+      }
+    });
+
+    nextBtn?.addEventListener("click", () => {
+      if (current < totalPages - 1) {
+        current++;
+        update();
+      }
+    });
+
+    update();
+  }
+
   function initGallery() {
     initGallerySlider();
+    initGalleryPagination();
     initGalleryModal();
   }
 
