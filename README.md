@@ -6,42 +6,52 @@ Site statique pour le tatoueur clm.ink à Chambéry, réalisé avec Astro et Tai
 
 ## Stack technique
 
-- **Astro** : générateur de site statique.
-- **Tailwind CSS 4** : design minimaliste, noir et blanc.
-- **TypeScript** : typage strict optionnel.
+- **Astro** : générateur de site statique
+- **Tailwind CSS 4** : design minimaliste, noir et blanc
+- **TypeScript** : typage strict optionnel
+- **@astrojs/sitemap** : génération du sitemap
 
-## Démarrage du projet
+## Démarrage
 
 ```bash
 npm install
 npm run dev
 ```
 
-Le site est accessible par défaut sur `http://localhost:4321`.
+Le site est accessible sur `http://localhost:4321`.
 
-## Structure principale
+### Scripts disponibles
 
-- `src/pages/index.astro` : landing page one-page (hero, galerie, Instagram, infos pratiques).
-- `src/pages/studio.astro` : page SEO sur le studio, l&apos;hygiène et le déroulé des séances.
-- `src/pages/faq.astro` : page SEO avec questions fréquentes sur le tatouage.
-- `src/components/*` : sections réutilisables (hero, galerie, flux Instagram, bloc infos).
-- `src/layouts/BaseLayout.astro` : layout de base avec SEO, header et footer.
+| Commande | Description |
+| -------- | ----------- |
+| `npm run dev` / `npm run start` | Serveur de développement |
+| `npm run build` | Build de production (sortie dans `dist/`) |
+| `npm run preview` | Prévisualisation du build |
+| `npm run check` | Vérification TypeScript / Astro |
 
-## Flux Instagram
+## Structure du projet
 
-La section Instagram est prête à consommer l&apos;API Instagram Basic Display.
+### Pages
 
-Pour activer la récupération automatique des derniers posts :
+- **File**: `src/pages/index.astro` — Landing one-page (hero, galerie, infos)
+- **File**: `src/pages/studio.astro` — Page studio
+- **File**: `src/pages/studio-hygiene.astro` — Hygiène et déroulé des séances
+- **File**: `src/pages/faq.astro` — FAQ tatouage
+- **File**: `src/pages/faq-tatouage.astro` — FAQ dédiée
+- **File**: `src/pages/blackwork.astro` — Galerie blackwork
+- **File**: `src/pages/geometric.astro` — Galerie géométrique
+- **File**: `src/pages/realism.astro` — Galerie réalisme
 
-1. Créez un token d&apos;accès Instagram Basic Display et récupérez votre `user_id`.
-2. Ajoutez les variables dans un fichier `.env` à la racine :
+### Composants et layout
 
-```bash
-PUBLIC_INSTAGRAM_ACCESS_TOKEN="votre_token"
-PUBLIC_INSTAGRAM_USER_ID="votre_user_id"
-```
+- **File**: `src/layouts/BaseLayout.astro` — Layout de base (SEO, header, footer)
+- **File**: `src/components/Hero.astro` — Section hero
+- **File**: `src/components/Portfolio.astro` — Galerie portfolio
+- **File**: `src/components/ExplorePortfolio.astro` — Liens vers les galeries par style
+- **File**: `src/components/InfoSection.astro` — Bloc infos pratiques
 
-3. Relancez `npm run dev` ou rebuild le site.
+Les assets statiques (images, favicon, etc.) sont dans `public/`.
 
-En l&apos;absence de configuration, un bloc explicatif et un lien vers le profil Instagram sont affichés.
+## Déploiement
 
+Le dossier `dist/` est ignoré par Git. Sur un hébergeur statique (GitHub Pages, Netlify, etc.), configurer la commande de build : `npm run build`, et le répertoire de publication : `dist`.

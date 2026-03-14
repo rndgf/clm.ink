@@ -7,8 +7,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check",
-    "scrape:instagram": "node scripts/scrape-instagram.mjs"
+    "check": "astro check"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.1",
