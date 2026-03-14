@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="À propos — Clément Lebailly (clm.ink), tatoueur à Chambéry"
+  description="Clément Lebailly, tatoueur à Chambéry depuis 2021 sous le nom clm.ink. Spécialisé en geometric, realism et blackwork, il travaille au studio Purple Line."
+>
+  <section class="border-b border-neutral-900 bg-black">
+    <div class="container-narrow py-14 sm:py-20 space-y-8">
+      <header class="space-y-3 max-w-2xl">
+        <p class="text-xs uppercase tracking-[0.35em] text-neutral-500">
+          À propos
+        </p>
+        <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-50">
+          Clément Lebailly — clm.ink
+        </h1>
+        <p class="text-sm text-neutral-300">
+          Tatoueur à Chambéry depuis 2021, je travaille sous le nom <strong class="text-neutral-100">clm.ink</strong> (Clèm).
+          Je réalise des pièces en geometric, realism et blackwork, sur rendez-vous au studio
+          <a href="https://www.instagram.com/purpleline.tattoo/" target="_blank" rel="noreferrer" class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-300 text-neutral-200">Purple Line tattoo club</a>,
+          4 rue Claude Martin.
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
+        <img
+          src="/about-1.jpeg"
+          alt="Clément Lebailly (clm.ink) au travail en studio — tatouage"
+          loading="lazy"
+          class="w-full aspect-[4/5] object-cover rounded-xl border border-neutral-800"
+        />
+        <img
+          src="/about-2.jpeg"
+          alt="Clèm en séance de tatouage au studio Purple Line, Chambéry"
+          loading="lazy"
+          class="w-full aspect-[4/5] object-cover rounded-xl border border-neutral-800"
+        />
+      </div>
+
+      <p class="text-sm text-neutral-400 max-w-2xl">
+        Chaque projet est préparé en amont avec vous : zone, taille, style et références.
+        Pour une idée du rendu, consultez la <a href="/#work" class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-300 text-neutral-300">galerie</a> ou
+        <a href="/contact" class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-300 text-neutral-300">contactez-moi</a> pour en discuter.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

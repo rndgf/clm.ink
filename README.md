@@ -42,6 +42,7 @@ Le site est accessible sur `http://localhost:4321`.
 - **File**: `src/pages/geometric.astro` — Galerie géométrique
 - **File**: `src/pages/realism.astro` — Galerie réalisme
 - **File**: `src/pages/contact.astro` — Page contact (SEO)
+- **File**: `src/pages/a-propos.astro` — À propos / Clément Lebailly (SEO)
 
 ### Composants et layout
 
