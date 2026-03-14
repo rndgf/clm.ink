@@ -11,6 +11,7 @@
     "scrape:instagram": "node scripts/scrape-instagram.mjs"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.1",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "latest"
   },
