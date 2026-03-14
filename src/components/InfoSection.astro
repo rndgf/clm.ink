@@ -35,8 +35,11 @@
                   Du mardi au samedi.
                 </div>
               </a>
-              <div
-                class="w-28 h-28 sm:w-32 sm:h-32 rounded-xl border border-neutral-800 bg-neutral-950/60 overflow-hidden shrink-0"
+              <button
+                type="button"
+                data-map-open
+                class="w-28 h-28 sm:w-32 sm:h-32 rounded-xl border border-neutral-800 bg-neutral-950/60 overflow-hidden shrink-0 cursor-pointer hover:border-neutral-600 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-500"
+                aria-label="Agrandir le plan"
               >
                 <img
                   src="/map.png"
@@ -44,15 +47,17 @@
                   loading="lazy"
                   class="h-full w-full object-cover"
                 />
-              </div>
+              </button>
             </div>
           </dd>
         </div>
         <div class="space-y-1 sm:col-span-2">
           <dd class="text-neutral-100">
-            <div class="flex items-center gap-3">
+            <div
+              class="rounded-xl border border-neutral-800/70 bg-neutral-900/30 px-4 py-3 flex items-center gap-3"
+            >
               <div
-                class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-700 bg-neutral-950/80 overflow-hidden shrink-0"
+                class="inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-neutral-700 bg-neutral-950/80"
               >
                 <img
                   src="/purple_line.jpg"
@@ -61,25 +66,27 @@
                   class="h-full w-full object-cover"
                 />
               </div>
-              <div>
-                clm.ink partage son studio au sein du collectif
-                <a
-                  href="https://www.instagram.com/purpleline.tattoo/"
-                  target="_blank"
-                  rel="noreferrer"
-                  class="whitespace-nowrap underline underline-offset-4 decoration-neutral-400 hover:decoration-neutral-200 text-neutral-100"
-                >
-                  Purple Line tattoo club
-                </a>
-                , qui réunit six tatoueurs :
+              <div class="min-w-0">
+                <p class="text-sm text-neutral-200">
+                  clm.ink partage son studio au sein du collectif
+                  <a
+                    href="https://www.instagram.com/purpleline.tattoo/"
+                    target="_blank"
+                    rel="noreferrer"
+                    class="whitespace-nowrap underline underline-offset-4 decoration-neutral-400 hover:decoration-neutral-200 text-neutral-100"
+                  >
+                    Purple Line tattoo club
+                  </a>
+                  , qui réunit six tatoueurs :
+                </p>
                 <span
-                  class="block text-xs text-neutral-300 mt-1 flex flex-wrap gap-x-1 gap-y-2"
+                  class="mt-1.5 block flex flex-wrap gap-x-0.5 gap-y-0.5 text-[11px] text-neutral-400"
                 >
                   <a
                     href="https://www.instagram.com/suzon_tattoo/"
                     target="_blank"
                     rel="noreferrer"
-                    class="inline-flex items-center min-h-[44px] min-w-[44px] py-2 px-2 -my-1 -mx-1 rounded underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200 text-neutral-200"
+                    class="inline-flex items-center rounded px-1 py-0.5 -mx-0.5 -my-0.5 underline underline-offset-2 decoration-neutral-600 hover:decoration-neutral-400 text-neutral-300"
                   >
                     @suzon_tattoo
                   </a>
@@ -87,7 +94,7 @@
                     href="https://www.instagram.com/m.caligari/"
                     target="_blank"
                     rel="noreferrer"
-                    class="inline-flex items-center min-h-[44px] min-w-[44px] py-2 px-2 -my-1 -mx-1 rounded underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200 text-neutral-200"
+                    class="inline-flex items-center rounded px-1 py-0.5 -mx-0.5 -my-0.5 underline underline-offset-2 decoration-neutral-600 hover:decoration-neutral-400 text-neutral-300"
                   >
                     @m.caligari
                   </a>
@@ -95,7 +102,7 @@
                     href="https://www.instagram.com/bonjour.crapule/"
                     target="_blank"
                     rel="noreferrer"
-                    class="inline-flex items-center min-h-[44px] min-w-[44px] py-2 px-2 -my-1 -mx-1 rounded underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200 text-neutral-200"
+                    class="inline-flex items-center rounded px-1 py-0.5 -mx-0.5 -my-0.5 underline underline-offset-2 decoration-neutral-600 hover:decoration-neutral-400 text-neutral-300"
                   >
                     @bonjour.crapule
                   </a>
@@ -103,7 +110,7 @@
                     href="https://www.instagram.com/cotenoir.ink/"
                     target="_blank"
                     rel="noreferrer"
-                    class="inline-flex items-center min-h-[44px] min-w-[44px] py-2 px-2 -my-1 -mx-1 rounded underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200 text-neutral-200"
+                    class="inline-flex items-center rounded px-1 py-0.5 -mx-0.5 -my-0.5 underline underline-offset-2 decoration-neutral-600 hover:decoration-neutral-400 text-neutral-300"
                   >
                     @cotenoir.ink
                   </a>
@@ -111,7 +118,7 @@
                     href="https://www.instagram.com/clm.ink/"
                     target="_blank"
                     rel="noreferrer"
-                    class="inline-flex items-center min-h-[44px] min-w-[44px] py-2 px-2 -my-1 -mx-1 rounded underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200 text-neutral-200"
+                    class="inline-flex items-center rounded px-1 py-0.5 -mx-0.5 -my-0.5 underline underline-offset-2 decoration-neutral-600 hover:decoration-neutral-400 text-neutral-300"
                   >
                     @clm.ink
                   </a>
@@ -119,7 +126,7 @@
                     href="https://www.instagram.com/primo_kao.tattoo/"
                     target="_blank"
                     rel="noreferrer"
-                    class="inline-flex items-center min-h-[44px] min-w-[44px] py-2 px-2 -my-1 -mx-1 rounded underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200 text-neutral-200"
+                    class="inline-flex items-center rounded px-1 py-0.5 -mx-0.5 -my-0.5 underline underline-offset-2 decoration-neutral-600 hover:decoration-neutral-400 text-neutral-300"
                   >
                     @primo_kao.tattoo
                   </a>
@@ -235,3 +242,69 @@
     </ul>
   </div>
 </section>
+
+<div
+  id="map-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 p-4"
+  aria-modal="true"
+  aria-label="Plan agrandi"
+>
+  <button
+    type="button"
+    data-map-close
+    class="absolute inset-0 w-full h-full cursor-default"
+    aria-label="Fermer le plan"
+  />
+  <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center">
+    <button
+      type="button"
+      data-map-close
+      class="absolute -top-10 right-0 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-600 text-neutral-200 hover:border-neutral-400 hover:text-neutral-50 bg-black/60"
+      aria-label="Fermer"
+    >
+      ✕
+    </button>
+    <img
+      src="/map_big.png"
+      alt="Plan d'accès au studio clm.ink — 4 rue Claude Martin, Chambéry"
+      class="max-h-[90vh] max-w-full w-auto h-auto object-contain rounded-lg border border-neutral-800"
+    />
+  </div>
+</div>
+
+<script>
+  (function () {
+    const openBtn = document.querySelector("[data-map-open]");
+    const modal = document.getElementById("map-modal");
+    const closeBtns = document.querySelectorAll("[data-map-close]");
+
+    if (!openBtn || !modal || closeBtns.length === 0) return;
+
+    function openModal() {
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      document.body.style.overflow = "";
+    }
+
+    openBtn.addEventListener("click", openModal);
+    closeBtns.forEach(function (btn) {
+      btn.addEventListener("click", closeModal);
+    });
+
+    modal.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeModal();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("flex")) {
+        closeModal();
+      }
+    });
+  })();
+</script>
