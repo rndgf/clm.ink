@@ -7,6 +7,7 @@ import { initMobileMenu } from './mobile-menu.js';
 import { bindModal } from './modal.js';
 import { initGallery } from './gallery.js';
 import { initTestimonialsSlider } from './testimonials-slider.js';
+import './testimonials-shuffle.js';
 
 function run() {
   initMobileMenu();

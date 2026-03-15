@@ -2,19 +2,12 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import testimonialsData from "../data/testimonials.json";
 
-function shuffle<T>(arr: T[]): T[] {
-  const out = [...arr];
-  for (let i = out.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [out[i], out[j]] = [out[j], out[i]];
-  }
-  return out;
-}
-
-const testimonials = shuffle(
-  testimonialsData as { author: string; text: string }[],
-);
+const testimonials = testimonialsData as { author: string; text: string }[];
+const testimonialsJson = JSON.stringify(testimonials).replace(/</g, "\\u003c");
 ---
+<script is:inline define:vars={{ testimonialsJson }}>
+  window.__TESTIMONIALS__ = JSON.parse(testimonialsJson);
+</script>
 
 <BaseLayout
   title="Témoignages clients — clm.ink Chambéry"
@@ -35,7 +28,7 @@ const testimonials = shuffle(
         </p>
       </header>
 
-      <div class="grid gap-6 sm:grid-cols-2">
+      <div class="testimonials-grid grid gap-6 sm:grid-cols-2">
         {
           testimonials.map((item) => (
             <blockquote class="rounded-2xl border border-neutral-800 bg-neutral-950/60 px-6 py-6 sm:px-8 sm:py-8">
