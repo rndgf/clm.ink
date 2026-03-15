@@ -1,14 +1,15 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Portfolio from '../components/Portfolio.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Portfolio from "../components/Portfolio.astro";
+import PortfolioInstagramCta from "../components/PortfolioInstagramCta.astro";
 ---
 
 <BaseLayout
   title="Tatouages réalisme noir et gris — clm.ink Chambéry"
   description="Tatouages réalistes en noir et gris à Chambéry : portraits, animaux, crânes et compositions sombres par clm.ink."
 >
-  <section class="border-b border-neutral-900 bg-black">
-    <div class="container-narrow py-14 sm:py-20 space-y-6">
+  <section class="bg-black">
+    <div class="container-narrow py-14 sm:py-20 space-y-6 sm:space-y-7">
       <header class="space-y-3">
         <p class="text-xs uppercase tracking-[0.35em] text-neutral-500">
           Style — Realism
@@ -17,42 +18,62 @@ import Portfolio from '../components/Portfolio.astro';
           Réalisme noir et gris.
         </h1>
         <p class="text-sm sm:text-base text-neutral-300 max-w-2xl">
-          Le réalisme en noir et gris permet de raconter des histoires fortes à travers des
-          portraits, des animaux, des crânes ou des scènes plus sombres. Travail des contrastes,
-          textures et lumières pour garder un maximum de lisibilité dans le temps.
+          Le réalisme en noir et gris permet de raconter des histoires fortes à
+          travers des portraits, des animaux, des crânes ou des scènes plus
+          sombres. Travail des contrastes, textures et lumières pour garder un
+          maximum de lisibilité dans le temps.
         </p>
       </header>
 
+      <Portfolio
+        folder="realism"
+        title="Realism"
+        kicker="Sélection de pièces réalistes"
+        description="Une sélection de tatouages réalistes noir et gris par clm.ink : portraits, animaux, crânes et compositions sombres."
+        hideHeader
+      />
+
       <div class="grid gap-8 lg:grid-cols-2 text-sm text-neutral-300">
         <p>
-          Un bon tatouage réaliste repose sur le choix des références, la simplification des
-          détails inutiles et la gestion des valeurs de gris. L&apos;idée n&apos;est pas de copier
-          une photo à l&apos;identique, mais de l&apos;adapter à la peau pour qu&apos;elle reste
-          lisible pendant des années.
+          Un bon tatouage réaliste repose sur le choix des références, la
+          simplification des détails inutiles et la gestion des valeurs de gris.
+          L&apos;idée n&apos;est pas de copier une photo à l&apos;identique,
+          mais de l&apos;adapter à la peau pour qu&apos;elle reste lisible
+          pendant des années.
         </p>
         <p>
-          Chaque projet est préparé avec des montages, croquis et ajustements de contraste afin
-          d&apos;obtenir un rendu fort sans surcharger la zone. Les placements fréquents sont les
-          avant-bras, les bras complets, les cuisses et le dos.
+          Chaque projet est préparé avec des montages, croquis et ajustements de
+          contraste afin d&apos;obtenir un rendu fort sans surcharger la zone.
+          Les placements fréquents sont les avant-bras, les bras complets, les
+          cuisses et le dos.
         </p>
       </div>
-      <p class="text-xs text-neutral-500">
-        Les pièces de réalisme noir et gris sont travaillées au studio clm.ink à Chambéry, avec un soin particulier porté au choix des références et à la lisibilité sur la peau. Si vous avez un projet de portrait, d&apos;animal ou de composition plus sombre, on peut en parler ensemble en amont pour trouver la meilleure approche.
-      </p>
-      <p class="text-xs text-neutral-500">
-        Si vous hésitez encore sur le rendu qui vous correspond le mieux, vous pouvez aussi jeter un œil aux pages
-        <a href="../geometric" class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200">tatouages géométriques</a>
-        et
-        <a href="../blackwork" class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200">blackwork graphique</a>.
-      </p>
+      <div class="space-y-3">
+        <p class="text-xs text-neutral-500">
+          Les pièces de réalisme noir et gris sont travaillées au studio clm.ink
+          à Chambéry, avec un soin particulier porté au choix des références et
+          à la lisibilité sur la peau. Si vous avez un projet de portrait,
+          d&apos;animal ou de composition plus sombre, on peut en parler
+          ensemble en amont pour trouver la meilleure approche.
+        </p>
+        <p class="text-xs text-neutral-500">
+          Si vous hésitez encore sur le rendu qui vous correspond le mieux, vous
+          pouvez aussi jeter un œil aux pages
+          <a
+            href="/geometric"
+            class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200"
+            >tatouages géométriques</a
+          >
+          et
+          <a
+            href="/blackwork"
+            class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200"
+            >blackwork graphique</a
+          >.
+        </p>
+      </div>
+
+      <PortfolioInstagramCta />
     </div>
   </section>
-
-  <Portfolio
-    folder="realism"
-    title="Realism"
-    kicker="Sélection de pièces réalistes"
-    description="Une sélection de tatouages réalistes noir et gris par clm.ink : portraits, animaux, crânes et compositions sombres."
-  />
 </BaseLayout>
-

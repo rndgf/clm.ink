@@ -1,14 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Portfolio from '../components/Portfolio.astro';
+import PortfolioInstagramCta from '../components/PortfolioInstagramCta.astro';
 ---
 
 <BaseLayout
   title="Tatouages géométriques — clm.ink Chambéry"
   description="Tatouages géométriques en noir et gris à Chambéry : lignes fines, mandalas, compositions graphiques et pièces sur-mesure par clm.ink."
 >
-  <section class="border-b border-neutral-900 bg-black">
-    <div class="container-narrow py-14 sm:py-20 space-y-6">
+  <section class="bg-black">
+    <div class="container-narrow py-14 sm:py-20 space-y-6 sm:space-y-7">
       <header class="space-y-3">
         <p class="text-xs uppercase tracking-[0.35em] text-neutral-500">
           Style — Geometric
@@ -23,6 +24,14 @@ import Portfolio from '../components/Portfolio.astro';
         </p>
       </header>
 
+      <Portfolio
+        folder="geometric"
+        title="Geometric"
+        kicker="Sélection de pièces géométriques"
+        description="Une sélection de tatouages géométriques réalisés par clm.ink : lignes fines, mandalas, motifs abstraits et compositions blackwork."
+        hideHeader
+      />
+
       <div class="grid gap-8 lg:grid-cols-2 text-sm text-neutral-300">
         <p>
           Les tatouages géométriques peuvent être minimalistes, avec quelques lignes fines, ou
@@ -36,23 +45,19 @@ import Portfolio from '../components/Portfolio.astro';
           de la façon dont le motif accompagnera vos mouvements au quotidien.
         </p>
       </div>
-      <p class="text-xs text-neutral-500">
-        Ces projets géométriques sont réalisés au studio clm.ink à Chambéry, en Savoie, sur rendez-vous uniquement. Pour discuter d&apos;une idée de tatouage géométrique et voir ce qui est possible sur votre morphologie, vous pouvez passer par la rubrique contact ou m&apos;écrire directement.
-      </p>
-      <p class="text-xs text-neutral-500">
-        Si vous hésitez encore sur le rendu qui vous correspond le mieux, vous pouvez aussi jeter un œil aux pages
-        <a href="../realism" class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200">réalisme noir et gris</a>
-        et
-        <a href="../blackwork" class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200">blackwork graphique</a>.
-      </p>
+      <div class="space-y-3">
+        <p class="text-xs text-neutral-500">
+          Ces projets géométriques sont réalisés au studio clm.ink à Chambéry, en Savoie, sur rendez-vous uniquement. Pour discuter d&apos;une idée de tatouage géométrique et voir ce qui est possible sur votre morphologie, vous pouvez passer par la rubrique contact ou m&apos;écrire directement.
+        </p>
+        <p class="text-xs text-neutral-500">
+          Si vous hésitez encore sur le rendu qui vous correspond le mieux, vous pouvez aussi jeter un œil aux pages
+          <a href="/realism" class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200">réalisme noir et gris</a>
+          et
+          <a href="/blackwork" class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-200">blackwork graphique</a>.
+        </p>
+      </div>
+
+      <PortfolioInstagramCta />
     </div>
   </section>
-
-  <Portfolio
-    folder="geometric"
-    title="Geometric"
-    kicker="Sélection de pièces géométriques"
-    description="Une sélection de tatouages géométriques réalisés par clm.ink : lignes fines, mandalas, motifs abstraits et compositions blackwork."
-  />
 </BaseLayout>
-

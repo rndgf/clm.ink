@@ -2,22 +2,24 @@
 
 ---
 
-<section id="infos" class="bg-black">
+<section id="infos" class="border-t border-neutral-900 bg-black">
   <div
-    class="container-narrow py-14 sm:py-20 grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]"
+    class="container-narrow py-10 grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]"
   >
-    <div class="space-y-6">
+    <div>
       <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
         Informations pratiques.
       </h2>
       <p class="text-sm text-neutral-300">
-        Le studio se situe au cœur de Chambéry.<br />Je travaille uniquement sur
-        rendez-vous, pour des projets préparés ensemble en amont à partir de vos
-        envies, références et contraintes.
+        Le studio, salon de tatouage à Chambéry, se situe au cœur de la ville.<br
+        />Je travaille uniquement sur rendez-vous, pour des projets préparés
+        ensemble en amont à partir de vos envies, références et contraintes.
       </p>
       <dl class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
         <div class="space-y-1 sm:col-span-2">
-          <dt class="text-[11px] uppercase tracking-[0.22em] text-neutral-400">
+          <dt
+            class="text-[11px] uppercase tracking-[0.22em] text-neutral-300 mt-8"
+          >
             Localisation
           </dt>
           <dd class="text-neutral-100">
@@ -77,7 +79,7 @@
                   >
                     Purple Line tattoo club
                   </a>
-                  , qui réunit six tatoueurs :
+                  , un salon de tatouage à Chambéry qui réunit six tatoueurs :
                 </p>
                 <span
                   class="mt-1.5 block flex flex-wrap gap-x-0.5 gap-y-0.5 text-[11px] text-neutral-400"
@@ -218,14 +220,11 @@
     </div>
   </div>
 
-  <div
-    class="container-narrow py-6 border-t border-neutral-800/80 mt-8"
-    aria-label="Rappels importants"
-  >
+  <div class="container-narrow pt-3 pb-6 mb-4" aria-label="Rappels importants">
     <p class="text-[11px] text-neutral-500 uppercase tracking-[0.2em] mb-2">
       Rappels importants
     </p>
-    <ul class="text-[11px] text-neutral-500 space-y-0.5 list-none">
+    <ul class="text-[11px] text-neutral-600 space-y-0.5 list-none">
       <li>Un acompte pourra vous être demandé pour bloquer une date.</li>
       <li>
         Les mineurs doivent être accompagnés d&apos;un représentant légal, avec
@@ -260,55 +259,20 @@
   <div
     class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center"
   >
-    <button
-      type="button"
-      data-map-close
-      class="absolute -top-10 right-0 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-600 text-neutral-200 hover:border-neutral-400 hover:text-neutral-50 bg-black/60"
-      aria-label="Fermer"
-    >
-      ✕
-    </button>
-    <img
-      src="/map_big.png"
-      alt="Plan d'accès au studio clm.ink — 4 rue Claude Martin, Chambéry"
-      class="max-h-[90vh] max-w-full w-auto h-auto object-contain rounded-lg border border-neutral-800"
-    />
+    <div class="relative w-max max-w-full max-h-[90vh]">
+      <button
+        type="button"
+        data-map-close
+        class="absolute top-2 right-2 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-600 text-neutral-200 hover:border-neutral-400 hover:text-neutral-50 bg-black/60"
+        aria-label="Fermer"
+      >
+        ✕
+      </button>
+      <img
+        src="/map_big.png"
+        alt="Plan d'accès au studio clm.ink — 4 rue Claude Martin, Chambéry"
+        class="max-h-[90vh] max-w-full w-auto h-auto object-contain rounded-lg border border-neutral-800"
+      />
+    </div>
   </div>
 </div>
-
-<script>
-  (function () {
-    const openBtn = document.querySelector("[data-map-open]");
-    const modal = document.getElementById("map-modal");
-    const closeBtns = document.querySelectorAll("[data-map-close]");
-
-    if (!openBtn || !modal || closeBtns.length === 0) return;
-
-    function openModal() {
-      modal.classList.remove("hidden");
-      modal.classList.add("flex");
-      document.body.style.overflow = "hidden";
-    }
-
-    function closeModal() {
-      modal.classList.add("hidden");
-      modal.classList.remove("flex");
-      document.body.style.overflow = "";
-    }
-
-    openBtn.addEventListener("click", openModal);
-    closeBtns.forEach(function (btn) {
-      btn.addEventListener("click", closeModal);
-    });
-
-    modal.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") closeModal();
-    });
-
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && modal.classList.contains("flex")) {
-        closeModal();
-      }
-    });
-  })();
-</script>
