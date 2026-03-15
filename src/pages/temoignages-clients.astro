@@ -1,0 +1,80 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import testimonialsData from "../data/testimonials.json";
+
+function shuffle<T>(arr: T[]): T[] {
+  const out = [...arr];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+const testimonials = shuffle(
+  testimonialsData as { author: string; text: string }[],
+);
+---
+
+<BaseLayout
+  title="Témoignages clients — clm.ink Chambéry"
+  description="Avis et témoignages clients sur clm.ink, tatoueur à Chambéry. Geometric, realism et blackwork."
+>
+  <section class="bg-black border-t border-neutral-900">
+    <div class="container-narrow py-14 sm:py-20 space-y-10">
+      <header class="space-y-3">
+        <p class="text-xs uppercase tracking-[0.35em] text-neutral-500">
+          Témoignages
+        </p>
+        <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight">
+          Ce que mes clients disent.
+        </h1>
+        <p class="text-sm sm:text-base text-neutral-300 max-w-2xl">
+          Cette page liste quelques uns de avis laissés par les clients du
+          studio après leur passage dans mon salon de tatouage à Chambéry.
+        </p>
+      </header>
+
+      <div class="grid gap-6 sm:grid-cols-2">
+        {
+          testimonials.map((item) => (
+            <blockquote class="rounded-2xl border border-neutral-800 bg-neutral-950/60 px-6 py-6 sm:px-8 sm:py-8">
+              <div
+                class="flex gap-0.5 text-neutral-600 mb-4"
+                aria-hidden="true"
+              >
+                {[1, 2, 3, 4, 5].map(() => (
+                  <svg
+                    class="w-4 h-4 shrink-0"
+                    aria-hidden="true"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              <p class="text-sm sm:text-base text-neutral-200 leading-relaxed">
+                « {item.text} »
+              </p>
+              <cite class="mt-4 not-italic text-xs text-neutral-500">
+                — {item.author}
+              </cite>
+            </blockquote>
+          ))
+        }
+      </div>
+
+      <p class="text-xs text-neutral-500 pt-4">
+        Avis Google — <a
+          href="https://www.google.com/search?sa=X&q=CLM.ink+Avis&tbm=lcl"
+          target="_blank"
+          rel="noreferrer noopener"
+          class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-400 text-neutral-400"
+        >
+          Voir les avis sur Google
+        </a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -6,6 +6,7 @@
 import { initMobileMenu } from './mobile-menu.js';
 import { bindModal } from './modal.js';
 import { initGallery } from './gallery.js';
+import { initTestimonialsSlider } from './testimonials-slider.js';
 
 function run() {
   initMobileMenu();
@@ -24,6 +25,10 @@ function run() {
     document.getElementById('gallery-modal');
   if (hasGallery) {
     initGallery();
+  }
+
+  if (document.querySelector('.testimonials-slider-wrapper')) {
+    initTestimonialsSlider();
   }
 }
 
