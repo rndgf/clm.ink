@@ -5,6 +5,7 @@ import testimonialsData from "../data/testimonials.json";
 const testimonials = testimonialsData as { author: string; text: string }[];
 const testimonialsJson = JSON.stringify(testimonials).replace(/</g, "\\u003c");
 ---
+
 <script is:inline define:vars={{ testimonialsJson }}>
   window.__TESTIMONIALS__ = JSON.parse(testimonialsJson);
 </script>
@@ -23,8 +24,8 @@ const testimonialsJson = JSON.stringify(testimonials).replace(/</g, "\\u003c");
           Ce que mes clients disent.
         </h1>
         <p class="text-sm sm:text-base text-neutral-300 max-w-2xl">
-          Cette page liste quelques uns de avis laissés par les clients du
-          studio après leur passage dans mon salon de tatouage à Chambéry.
+          Cette page liste quelques-uns des avis laissés par mes clients après
+          leur passage dans mon salon de tatouage à Chambéry.
         </p>
       </header>
 
@@ -59,7 +60,7 @@ const testimonialsJson = JSON.stringify(testimonials).replace(/</g, "\\u003c");
       </div>
 
       <p class="text-xs text-neutral-500 pt-4">
-        Avis Google — <a
+        <a
           href="https://www.google.com/search?sa=X&q=CLM.ink+Avis&tbm=lcl"
           target="_blank"
           rel="noreferrer noopener"

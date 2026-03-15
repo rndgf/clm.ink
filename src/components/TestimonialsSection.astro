@@ -3,8 +3,12 @@ import testimonialsData from "../data/testimonials.json";
 
 const allTestimonials = testimonialsData as { author: string; text: string }[];
 const testimonials = allTestimonials.slice(0, 10);
-const testimonialsJson = JSON.stringify(allTestimonials).replace(/</g, "\\u003c");
+const testimonialsJson = JSON.stringify(allTestimonials).replace(
+  /</g,
+  "\\u003c",
+);
 ---
+
 <script is:inline define:vars={{ testimonialsJson }}>
   window.__TESTIMONIALS__ = JSON.parse(testimonialsJson);
 </script>
@@ -28,14 +32,6 @@ const testimonialsJson = JSON.stringify(allTestimonials).replace(/</g, "\\u003c"
           class="text-sm text-neutral-400 hover:text-neutral-200 transition-colors underline underline-offset-4 decoration-neutral-600 hover:decoration-neutral-400"
         >
           Tous les témoignages →
-        </a>
-        <a
-          href="https://www.google.com/search?sa=X&q=CLM.ink+Avis&tbm=lcl"
-          target="_blank"
-          rel="noreferrer noopener"
-          class="text-sm text-neutral-400 hover:text-neutral-200 transition-colors underline underline-offset-4 decoration-neutral-600 hover:decoration-neutral-400"
-        >
-          Avis sur Google →
         </a>
       </div>
     </header>
