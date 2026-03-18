@@ -71,6 +71,11 @@ import '../styles/global.css';
       href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Lato:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body class="min-h-screen flex flex-col">
     <header id="site-header" class="bg-black/80 backdrop-blur sticky top-0 z-40">
@@ -101,7 +106,7 @@ import '../styles/global.css';
         </button>
         <nav id="main-nav" class="max-sm:hidden sm:flex max-sm:flex-col max-sm:absolute max-sm:top-full max-sm:left-0 max-sm:right-0 max-sm:bg-black max-sm:py-4 max-sm:gap-4 max-sm:px-4 gap-6 text-xs uppercase tracking-[0.2em] text-neutral-400">
           <a href="/portfolio" class="hover:text-neutral-100 transition-colors">Portfolio</a>
-          <a href="/#infos" class="hover:text-neutral-100 transition-colors">Infos</a>
+          <a href="/informations" class="hover:text-neutral-100 transition-colors">Infos</a>
           <a href="/contact" class="hover:text-neutral-100 transition-colors">Contact</a>
         </nav>
       </div>
@@ -174,16 +179,18 @@ import '../styles/global.css';
               @hand_ink_
             </a>
           </p>
-          <p class="text-neutral-500">
-            Site par
-            <a
-              href="https://www.renaudgouffe.fr"
-              target="_blank"
-              rel="noreferrer"
-              class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-300 text-neutral-400"
-            >
-              rndgf
-            </a>
+          <p class="text-neutral-500 inline-flex items-center gap-2">            
+            <span>
+              Site par{" "} <i class="fa-solid fa-bolt text-neutral-500" aria-hidden="true"></i>
+              <a
+                href="https://www.renaudgouffe.fr"
+                target="_blank"
+                rel="noreferrer"
+                class="underline underline-offset-4 decoration-neutral-500 hover:decoration-neutral-300 text-neutral-400"
+              >
+                rndgf
+              </a>
+            </span>
           </p>
         </div>
       </div>
